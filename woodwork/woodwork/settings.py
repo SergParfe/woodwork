@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 
 SECRET_KEY = os.getenv(
@@ -26,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'works.apps.WorksConfig',
 ]
 
 MIDDLEWARE = [
@@ -43,7 +46,9 @@ ROOT_URLCONF = 'woodwork.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            TEMPLATES_DIR,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
