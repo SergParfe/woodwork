@@ -95,6 +95,10 @@ class CommentAdmin(admin.ModelAdmin):
         'approved',
     )
     list_editable = ('approved',)
+    ordering = (
+        'approved',
+        '-pub_date',
+    )
 
     def project(self, obj):
         return Content.objects.get(
