@@ -5,7 +5,10 @@ User = get_user_model()
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=256, verbose_name='Name')
+    name = models.CharField(
+        max_length=256,
+        verbose_name='Name',
+    )
     slug = models.SlugField(
         unique=True,
         max_length=256,
@@ -41,7 +44,6 @@ class Content(models.Model):
         max_length=3,
         choices=LANGUAGE_CHOICES,
         blank=False,
-        unique=True,
         verbose_name='Язык',
         default=ENG,
     )
@@ -52,6 +54,52 @@ class Content(models.Model):
 
     def __str__(self):
         return self.title[:25]
+
+
+class Image(models.Model):
+    work = models.ForeignKey(
+        'Work', on_delete=models.CASCADE, related_name='images'
+    )
+    image = models.ImageField(upload_to='images/')
+    order = models.IntegerField()
+    pub_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата публикации',
+    )
+
+    class Meta:
+        ordering = ('-pub_date',)
+        verbose_name = 'Картинка'
+        verbose_name_plural = 'Картинки'
+
+
+class ApprovedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(approved=True)
+
+
+class Comment(models.Model):
+    author = models.CharField(
+        max_length=256,
+        verbose_name='Имя комментатора',
+    )
+    text = models.TextField(verbose_name='Текст комментария')
+    approved = models.BooleanField(null=False, default=False)
+    pub_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата комментария',
+    )
+
+    objects = models.Manager()
+    is_approved = ApprovedManager()
+
+    class Meta:
+        ordering = ('-pub_date',)
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return f'{self.author} написал комментарий {self.text[:25]}'
 
 
 class Work(models.Model):
@@ -72,8 +120,13 @@ class Work(models.Model):
     )
     content = models.ManyToManyField(
         Content,
-        related_name='texts_of_project',
+        related_name='content_to_work',
         verbose_name='Тексты статьи',
+    )
+    comment = models.ManyToManyField(
+        Comment,
+        related_name='comment_to_work',
+        verbose_name='Комментарии',
     )
 
     class Meta:
@@ -83,5 +136,11 @@ class Work(models.Model):
 
     def __str__(self):
         return Content.objects.get(
-            texts_of_project__id=self.pk, lang='eng'
+            content_to_work__id=self.pk, lang='eng'
         ).title
+
+
+'''
+    def get_absolute_url(self):
+        return reverse('post', kwargs={'post_slug': self.slug})
+'''

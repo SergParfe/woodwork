@@ -1,14 +1,17 @@
-version: '3.3'
 volumes: 
   pg_data: 
   static_value: 
   media_value:
+  migrations_works:
+
 services:
+
   db: 
     image: postgres:13.0-alpine 
     env_file: .env 
     volumes: 
       - pg_data:/var/lib/postgresql/data
+
   woodwork: 
     build: ../woodwork
     restart: always 
@@ -16,8 +19,10 @@ services:
     depends_on: 
       - db 
     volumes: 
-      - static_value:/app/static/ 
+      - static_value:/app/static/
       - media_value:/app/media/
+      - migrations_works:/app/works/migrations
+
   nginx:
     image: nginx:1.23.3-alpine-slim
     ports:
