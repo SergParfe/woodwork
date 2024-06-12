@@ -1,6 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.utils.safestring import mark_safe
+
 from works.models import Comment, Content, Image, Tag, Work
+
+admin.site.unregister(Group)
 
 
 class ContentInline(admin.TabularInline):
@@ -102,7 +106,7 @@ class CommentAdmin(admin.ModelAdmin):
 
     def project(self, obj):
         return Content.objects.get(
-            lang='eng',
+            language='eng',
             content_to_work__id=Work.objects.get(comment=obj.pk).pk,
         ).title[:25]
 
@@ -144,7 +148,7 @@ class WorkAdmin(admin.ModelAdmin):
     @admin.display(description='Заголовок')
     def eng_title(self, obj):
         return Content.objects.get(
-            lang='eng', content_to_work__id=obj.pk
+            language='eng', content_to_work__id=obj.pk
         ).title[:25]
 
     def get_form(self, request, obj=None, **kwargs):
@@ -166,4 +170,32 @@ class CommentsOfWorkAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    pass
+    fields = (
+        'photo',
+        'order',
+        'work',
+        'image',
+        'pub_date',
+    )
+    readonly_fields = (
+        'photo',
+        'pub_date',
+    )
+    list_display = (
+        'photo',
+        'work',
+        'order',
+    )
+    list_display_links = (
+        'photo',
+        'work',
+    )
+    list_editable = ('order',)
+    ordering = (
+        'work',
+        'order',
+    )
+
+    @admin.display(description='Изображение')
+    def photo(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" width=100>')

@@ -1,0 +1,35 @@
+{% if works %}
+  {% for work in works|dictsortreversed:'pub_date' %}
+  <div>
+    <ul>
+      <li>
+        author: {{ work.author.get_full_name }}
+      </li>
+      <li>
+        pub_date: {{ work.pub_date|date:"d E Y" }}
+      </li>
+      {% with content=work.content_unit|first %}
+        <li>
+          title: {{ content.title }}
+        </li>
+        <li>
+          text: {{ content.text }}
+        </li>
+      {% endwith %}
+        <ul>
+      {% for comment in work.comment_unit %}
+        <li>
+          author: {{ comment.author }}
+          <br>
+          text: {{ comment.text }}
+        </li>
+      {% endfor %}
+        </ul>
+    </ul>
+  </div>
+  <div>
+    <img src="{{ work.main_image|first }}" width=100>
+  </div>
+  {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %} 
+{% endif %}

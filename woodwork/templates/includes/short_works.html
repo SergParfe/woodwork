@@ -1,0 +1,20 @@
+{% if works %}
+  {% for work in works|dictsortreversed:'pub_date' %}
+  <div>
+    <img src="{{ work.main_image|first }}" width=100>
+  </div>
+  <div>
+    <ul>
+      <li>
+        pub_date: {{ work.pub_date|date:"E Y" }}
+      </li>
+      {% with content=work.content_unit|first %}
+        <li>
+          title: {{ content.title }}
+        </li>
+      {% endwith %}
+    </ul>
+  </div>
+  {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %} 
+{% endif %}

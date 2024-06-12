@@ -4,6 +4,11 @@ from django.db import models
 User = get_user_model()
 
 
+class ApprovedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(approved=True)
+
+
 class Tag(models.Model):
     name = models.CharField(
         max_length=256,
@@ -40,7 +45,7 @@ class Content(models.Model):
         related_name='works',
         verbose_name='Теги',
     )
-    lang = models.CharField(
+    language = models.CharField(
         max_length=3,
         choices=LANGUAGE_CHOICES,
         blank=False,
@@ -58,10 +63,16 @@ class Content(models.Model):
 
 class Image(models.Model):
     work = models.ForeignKey(
-        'Work', on_delete=models.CASCADE, related_name='images'
+        'Work',
+        on_delete=models.CASCADE,
+        related_name='images',
+        verbose_name='Проект',
     )
-    image = models.ImageField(upload_to='images/')
-    order = models.IntegerField()
+    image = models.ImageField(
+        upload_to='images/',
+        verbose_name='Файл картинки',
+    )
+    order = models.IntegerField(verbose_name='Номер для сортировки')
     pub_date = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата публикации',
@@ -72,10 +83,8 @@ class Image(models.Model):
         verbose_name = 'Картинка'
         verbose_name_plural = 'Картинки'
 
-
-class ApprovedManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(approved=True)
+    def __str__(self):
+        return self.image.url
 
 
 class Comment(models.Model):
@@ -136,7 +145,7 @@ class Work(models.Model):
 
     def __str__(self):
         return Content.objects.get(
-            content_to_work__id=self.pk, lang='eng'
+            content_to_work__id=self.pk, language='eng'
         ).title
 
 

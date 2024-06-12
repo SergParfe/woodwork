@@ -3,3 +3,4 @@ Pillow
 psycopg2-binary
 python-dotenv
 flake8
+django-debug-toolbar
