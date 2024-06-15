@@ -17,10 +17,17 @@ class ContentInline(admin.TabularInline):
 
 class ImageInline(admin.TabularInline):
     model = Image
+    fields = ('photo', 'image', 'description', 'order')
     verbose_name = 'Картинка'
     verbose_name_plural = 'Картинки'
     extra = 1
     min_number = 1
+    ordering = ('order',)
+    readonly_fields = ('photo',)
+
+    @admin.display(description='Изображение')
+    def photo(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" width=100>')
 
 
 class CommentInline(admin.TabularInline):
@@ -173,6 +180,7 @@ class ImageAdmin(admin.ModelAdmin):
     fields = (
         'photo',
         'order',
+        'description',
         'work',
         'image',
         'pub_date',
@@ -185,6 +193,7 @@ class ImageAdmin(admin.ModelAdmin):
         'photo',
         'work',
         'order',
+        'description',
     )
     list_display_links = (
         'photo',

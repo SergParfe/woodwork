@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Thanks!{% endblock %}
+{% block content %}
+
+    <h1 class="text-center"><strong>Thanks!</strong></h1>
+    <p class="text-center">
+      Your comment has been successfully received. I'll check and post it asap!
+    </p>
+    <p class="text-center">
+      Спасибо! Ваш комментарий успешно получен. Я проверю и опубликую его как можно скорее!
+    </p>
+
+{% endblock %}
+{% block works_list %}
+<section class="jumbotron text-center">
+  <p class="text-center">You can back to the previous page,
+    <br>Вы можете вернуться к прежней странице,
+  </p>
+  <div class="container">
+    <a href="{% url 'works:work_detail' slug language %}" class="btn btn-secondary">Previous page</a>
+  </div>
+  <p class="text-center">or back to the catalog.
+    <br>или вернуться в каталог.
+  </p>
+  <div class="container">
+    <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Catalog</a>
+  </div>
+</selection>
+{% endblock %}

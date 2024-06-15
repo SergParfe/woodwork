@@ -1,4 +1,4 @@
-volumes: 
+volumes:
   pg_data: 
   static_value: 
   media_value:
@@ -13,7 +13,9 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   woodwork: 
-    build: ../woodwork
+    build:
+      context: ../woodwork
+      dockerfile: Dockerfile
     restart: always 
     env_file: .env 
     depends_on: 

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}
+{% with content=work.content_unit|first %}
+    {{ content.title }}
+{% endwith %}
+{% endblock %}
+
+
+{% block content %}
+{% with content=work.content_unit|first %}
+
+<h1><strong>{{ content.title }}</strong></h1>
+
+<div class="container card">
+    {% with item=work.main_image|first %}
+    <img src="{{ item }}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <p class="card-text text-center">{{ item.description }}</p>
+        {% endwith %}
+    <p class="card-text text-justify">{{ content.text }}</p>
+    <small class="text-muted">Made: {{ work.pub_date|date:"E Y" }}</small>
+    </div>
+</div>
+
+{% endwith %}
+{% endblock %}
+
+
+{% block works_list %}
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        {% comment %} Начало карусели {% endcomment %}
+
+{% with carousel_content=work.main_image|slice:'1:' %}
+{% if carousel_content %}
+        <h2>More pictures</h2>
+          <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators" style="bottom: 2rem;">
+
+            {% for item in carousel_content %}
+              <li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}"{% if forloop.first %} class="active"{% endif %} style="height: 10px;"></li>
+            {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+
+            {% for item in carousel_content %}
+
+              <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                <img src="{{ item }}" class="d-block w-100" alt="Image {{ forloop.counter0 }}">
+                <div class="carousel-caption d-none d-md-block">
+                  <p></p>
+                </div>
+                <p class="text-center">{{ item.description }}</p>
+              </div>
+            {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true" style="width: 30px; height: 30px;"></span>
+              <span class="sr-only">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true" style="width: 30px; height: 30px;"></span>
+              <span class="sr-only">Next</span>
+            </button>
+          </div>
+{% endif %}
+{% endwith %}
+{% comment %} Конец карусели {% endcomment %}
+
+    </div>
+</div>
+
+{% comment %} Комментарии {% endcomment %}
+
+{% for comment in work.comment_unit %}
+{% if forloop.first%}
+<section class="jumbotron">
+    <div class="container">
+<h2>Early comments</h2>
+{% endif %}
+    <div class="card bg-light mb-3">
+        <div class="card-body">
+            <strong>{{ comment.author }}</strong>
+            <p class="card-text text-justify">
+            {{ comment.text }}
+            </p>
+            <p class="text-muted text-right"><small>@ {{ work.pub_date|date:"d E Y" }}</small></p>
+        </div>
+    </div>
+{% if forloop.last%}
+    </div>
+</section>
+{% endif %}
+{% endfor %}
+
+{% comment %} Конец комментариев {% endcomment %}
+
+{% comment %} Форма ввода комментария {% endcomment %}
+<section class="jumbotron">
+  <div class="container">
+  <h2>Your comment:</h2>
+<form method="post" action="">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Your name" name="author" maxlength="128" required>
+    </div>
+    <div class="col-7">
+      <input type="text" class="form-control" placeholder="Your message"name="text" maxlength="512" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </div>
+
+  </div>
+</form>
+
+</div>
+</section>
+{% comment %} Конец формы {% endcomment %}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Back to the catalog</a>
+    </div>
+</selection>
+{% endblock %}

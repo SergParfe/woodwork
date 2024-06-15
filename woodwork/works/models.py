@@ -9,6 +9,16 @@ class ApprovedManager(models.Manager):
         return super().get_queryset().filter(approved=True)
 
 
+class WorkList(models.Manager):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .exclude(slug='about')
+            .exclude(slug='about_me')
+        )
+
+
 class Tag(models.Model):
     name = models.CharField(
         max_length=256,
@@ -72,6 +82,7 @@ class Image(models.Model):
         upload_to='images/',
         verbose_name='Файл картинки',
     )
+    description = models.TextField(verbose_name='Описание')
     order = models.IntegerField(verbose_name='Номер для сортировки')
     pub_date = models.DateTimeField(
         auto_now_add=True,
@@ -79,7 +90,10 @@ class Image(models.Model):
     )
 
     class Meta:
-        ordering = ('-pub_date',)
+        ordering = (
+            '-order',
+            '-pub_date',
+        )
         verbose_name = 'Картинка'
         verbose_name_plural = 'Картинки'
 
@@ -89,10 +103,13 @@ class Image(models.Model):
 
 class Comment(models.Model):
     author = models.CharField(
-        max_length=256,
+        max_length=128,
         verbose_name='Имя комментатора',
     )
-    text = models.TextField(verbose_name='Текст комментария')
+    text = models.TextField(
+        verbose_name='Текст комментария',
+        max_length=512,
+    )
     approved = models.BooleanField(null=False, default=False)
     pub_date = models.DateTimeField(
         auto_now_add=True,
@@ -108,7 +125,7 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
-        return f'{self.author} написал комментарий {self.text[:25]}'
+        return f'{self.author} написал: {self.text[:25]}'
 
 
 class Work(models.Model):
@@ -137,6 +154,9 @@ class Work(models.Model):
         related_name='comment_to_work',
         verbose_name='Комментарии',
     )
+
+    objects = models.Manager()
+    worklist = WorkList()
 
     class Meta:
         ordering = ('-pub_date',)

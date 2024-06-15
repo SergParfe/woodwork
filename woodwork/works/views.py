@@ -1,16 +1,24 @@
-from django.db.models import Prefetch
-from django.shortcuts import render
+from datetime import datetime
+from http import HTTPStatus
 
+from django.db.models import Prefetch
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+from works.constants import LANGUAGE, MAIN_PAGE_WORKS_COUNT
+from works.forms import CommentForm
 from works.models import Comment, Content, Image, Work
 from works.utils import language_tool
 
 
 def index(request, language='eng'):
-    language, context = language_tool(language, request)
+    if language not in LANGUAGE:
+        return redirect(f'{reverse("index")}{LANGUAGE[0]}/')
+    context = language_tool(language, request)
     template = f'works/{language}/index.html'
 
     works = (
-        Work.objects.all()
+        Work.worklist.all()
         .prefetch_related(
             Prefetch(
                 'comment',
@@ -29,7 +37,133 @@ def index(request, language='eng'):
             ),
         )
         .select_related('author')
-        .order_by('?')[:6]
+        .order_by('?')[:MAIN_PAGE_WORKS_COUNT]
     )
     context |= {'works': works}
+    return render(request, template, context)
+
+
+def page_not_found(request, exception):
+    context = {
+        'language': LANGUAGE[0],
+        'switch_to_language': LANGUAGE[1],
+        'switch_to_url': f'/{LANGUAGE[1]}/',
+        'year': datetime.now().strftime('%Y'),
+        'path': request.path,
+    }
+    return render(
+        request,
+        '404.html',
+        context,
+        status=HTTPStatus.NOT_FOUND,
+    )
+
+
+def server_error_page(request):
+    context = {
+        'language': LANGUAGE[0],
+        'switch_to_language': LANGUAGE[1],
+        'switch_to_url': f'/{LANGUAGE[1]}/',
+        'year': datetime.now().strftime('%Y'),
+        'path': request.path,
+    }
+    return render(
+        request,
+        '500.html',
+        context,
+        status=HTTPStatus.INTERNAL_SERVER_ERROR,
+    )
+
+
+def work_list(request, language='eng'):
+    context = language_tool(language, request)
+    works = (
+        Work.worklist.all()
+        .prefetch_related(
+            Prefetch(
+                'comment',
+                queryset=Comment.is_approved.all(),
+                to_attr='comment_unit',
+            ),
+            Prefetch(
+                'content',
+                queryset=Content.objects.filter(language=language),
+                to_attr='content_unit',
+            ),
+            Prefetch(
+                'images',
+                queryset=Image.objects.all(),
+                to_attr='main_image',
+            ),
+        )
+        .select_related('author')
+    )
+    context |= {'works': works}
+    template = f'works/{language}/work_list.html'
+    return render(request, template, context)
+
+
+def work_detail(request, slug, language='eng'):
+    context = language_tool(language, request)
+    template = f'works/{language}/work_detail.html'
+    work = (
+        Work.worklist.filter(slug=slug)
+        .prefetch_related(
+            Prefetch(
+                'content',
+                queryset=Content.objects.filter(language=language),
+                to_attr='content_unit',
+            ),
+            Prefetch(
+                'comment',
+                queryset=Comment.is_approved.all(),
+                to_attr='comment_unit',
+            ),
+            Prefetch(
+                'images',
+                queryset=Image.objects.all(),
+                to_attr='main_image',
+            ),
+        )
+        .select_related('author')
+    )[0]
+    context |= {'work': work}
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save()
+            work.comment.add(comment)
+            context |= {
+                'work': work,
+                'slug': work.slug,
+            }
+            return render(request, 'thanks.html', context)
+        context |= {'comment_form': form}
+        return render(request, template, context)
+
+    form = CommentForm()
+    context |= {'comment_form': form}
+
+    return render(request, template, context)
+
+
+def about_this_site(request, language='eng'):
+    context = language_tool(language, request)
+    template = f'works/{language}/about.html'
+    work = (
+        Work.worklist.filter(slug='about_this_site').prefetch_related(
+            Prefetch(
+                'content',
+                queryset=Content.objects.filter(language=language),
+                to_attr='content_unit',
+            ),
+            Prefetch(
+                'images',
+                queryset=Image.objects.all(),
+                to_attr='main_image',
+            ),
+        )
+    )[0]
+    context |= {'work': work}
     return render(request, template, context)

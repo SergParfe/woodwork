@@ -1,31 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Main page{% endblock %}
 {% block content %}
-<section class="jumbotron text-center">
-  <div class="container">
-    <h1><b>Hello!</b></h1>
-    <p class="lead text-muted">
+
+    <h1><strong>Hello!</strong></h1>
+    <p class="lead text-muted text-justify">
       My name is Sergei. I've been passionate about woodworking for over 10 years.
       I started as a hobby, and then had experience working in this craft.
       On this site I've posted some projects that I've put my hands on.
     </p>
-    <p>
+    <p class="text-justify">
       In my work, I use hand and power tools, industrial equipment, as well as a CNC machine.
       I design products using Autodesk Fusion.
     </p>
-    <p>
+    <p class="text-justify">
       Below are some of my works. Watch and comment.
     </p>
-  </div>
-</section>
+
 {% endblock %}
 {% block works_list %}
-{% include 'includes/short_works.html' %}
+{% include 'includes/works.html' %}
 <section class="jumbotron text-center">
 <div class="container">
-  <p>
-  <a href="#" class="btn btn-primary my-2">View the entire catalog</a>
-  </p>
+  <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">View the entire catalog</a>
 </div>
 </selection>
 {% endblock %}

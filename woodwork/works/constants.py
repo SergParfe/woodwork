@@ -1,1 +1,3 @@
 LANGUAGE = ('eng', 'rus')
+
+MAIN_PAGE_WORKS_COUNT = 6

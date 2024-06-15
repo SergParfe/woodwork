@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}All my works{% endblock %}
+{% block content %}
+<h1><strong>Catalog</strong></h1>
+<p>
+Here I've published works that I particularly remember and which I managed to photograph.
+You can open each work and see the details. You can also leave a comment.
+</p>
+{% endblock %}
+{% block works_list %}
+{% include 'includes/works.html' %}
+{% endblock %}

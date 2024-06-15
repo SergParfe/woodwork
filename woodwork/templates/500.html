@@ -1,22 +1,15 @@
 {% extends "base.html" %}
-{% block title %}Ошибка 500 - что-то упало{% endblock %}
+{% block title %}HTTP Error 500: server error{% endblock %}
 {% block content %}
-    <main>
-        <section class="container my-5 px-4">
-            <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
-            <div class="container">
-                <div class="row ">
-                    <div class="col-sm">
-                    </div>
-                    <div class="col-sm">
-                        <p class="text-center">
-                        <h5 class="text-center">Ошибка 500 - что-то упало</h5>
-                        </p>
-                    </div>
-                    <div class="col-sm">
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+    <h1>HTTP Error 500</h1>
+    <p>Something bad happened with this page {{ path }}.</p>
+    <p>I'll try to fix it asap.</p>
+    You can try again the from <a href="{% url 'index' %}">the home page</a>
+    
+    <p>{{ exception }}</p>
+    <p>{{ request }}</p>
+    <p>{{ language }}</p>
+    <p>{{ switch_to_language }}</p>
+
 {% endblock %}
+{% block works_list %} {% endblock %}
