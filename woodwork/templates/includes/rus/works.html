@@ -1,42 +1,36 @@
 {% if works %}
 <div class="album py-5 bg-light">
   <div class="container">
-  {% for work in works|dictsortreversed:'pub_date' %}
-    {% if forloop.first %}
     <div class="row">
-    {% endif %}
+  {% for work in works|dictsortreversed:'made' %}
       <div class="col-md-4">
-        <a href="/works/{{ work.slug }}/{{ language }}/" class="btn btn-light">
-        <svg class="bd-placeholder-img card-img-top" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-          <image xlink:href="{{ work.image_content|first }}" width="100%" height="100%"/>
-        </svg>
+        <div class="card mb-4 shadow-sm">
+          <a href="/works/{{ work.slug }}/{{ language }}/" class="btn btn-light">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>{{ content.title }}</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect>
+            <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ content.title }}</text>
+            <image xlink:href="{{ work.image_content|first }}" width="100%" height="100%"/>
+          </svg>
         </a>
-        <div class="card-body">
-          <p class="card-text">
+          <div class="card-body">
             {% with content=work.content_unit|first %}
-              <b>{{ content.title }}</b>
-              <br>
-              {{ content.text|truncatechars:SHORT_CARD_TEXT_LENGTH }}
-              <br>
-              <small class="text-muted">Сделано: {{ work.pub_date|date:"E Y" }}</small>
-              {% endwith %}
-          </p>
-          <div class="btn-group">
-            <a href="/works/{{ work.slug }}/{{ language }}/" class="btn btn-sm btn-outline-secondary">Больше ...</a>
+            <b>{{ content.title }}</b>
+            <br>
+            {{ content.text|truncatechars:SHORT_CARD_TEXT_LENGTH }}
+            <br>
+            <small class="text-muted">Сделано: {{ work.made|date:"E Y" }}</small>
+            {% endwith %}
+            <div class="d-flex justify-content-end align-items-center">
+              <div class="btn-group">
+                <a href="/works/{{ work.slug }}/{{ language }}/" class="btn btn-sm btn-outline-secondary">Еще ...</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    {% if forloop.counter|divisibleby:3 %}
-    </div>
-    {% if not forloop.last %}
-  <div class="row">
-    {% endif %}
-    {% endif %}
-    {% if forloop.last %}
-  </div>
-    {% endif %}
   {% endfor %}
     </div>
   </div>
+</div>
 {% endif %}

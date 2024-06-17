@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from works.constants import EXCLUDE_ABOUT_PAGE
+from works.constants import EXCLUDE_WORKS_FROM_LIST
 
 User = get_user_model()
 
@@ -13,7 +13,7 @@ class ApprovedManager(models.Manager):
 
 class WorkList(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().exclude(slug=EXCLUDE_ABOUT_PAGE)
+        return super().get_queryset().exclude(slug__in=EXCLUDE_WORKS_FROM_LIST)
 
 
 class Tag(models.Model):
@@ -141,6 +141,9 @@ class Work(models.Model):
         auto_now_add=True,
         verbose_name='Дата публикации',
     )
+    made = models.DateTimeField(
+        verbose_name='Дата изготовления',
+    )
     content = models.ManyToManyField(
         Content,
         related_name='content_to_work',
@@ -156,17 +159,11 @@ class Work(models.Model):
     worklist = WorkList()
 
     class Meta:
-        ordering = ('-pub_date',)
-        verbose_name = 'Проект'
-        verbose_name_plural = 'Проекты'
+        ordering = ('-made',)
+        verbose_name = 'Работа'
+        verbose_name_plural = 'Работы'
 
     def __str__(self):
         return Content.objects.get(
             content_to_work__id=self.pk, language='eng'
         ).title
-
-
-'''
-    def get_absolute_url(self):
-        return reverse('post', kwargs={'post_slug': self.slug})
-'''

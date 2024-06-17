@@ -103,6 +103,7 @@ class WorkAdmin(admin.ModelAdmin):
     fields = (
         'author',
         'slug',
+        'made',
         'pub_date',
     )
     readonly_fields = ('pub_date',)
@@ -116,7 +117,7 @@ class WorkAdmin(admin.ModelAdmin):
         'photo',
         'eng_title',
         'slug',
-        'pub_date',
+        'made',
     )
     list_display_links = list_display[:2]
     search_fields = (
@@ -139,7 +140,7 @@ class WorkAdmin(admin.ModelAdmin):
         ).title[:25]
 
     def get_form(self, request, obj=None, **kwargs):
-        '''Значение поля author по умолчанию'''
+        '''Задает значение поля author по умолчанию.'''
         form = super(WorkAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['author'].initial = request.user
         return form

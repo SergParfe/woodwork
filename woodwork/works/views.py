@@ -36,7 +36,6 @@ def index(request, language='eng'):
                 to_attr='image_content',
             ),
         )
-        .select_related('author')
         .order_by('?')[:MAIN_PAGE_WORKS_COUNT]
     )
     context |= {'works': works}

@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('works/', include('works.urls', namespace='works')),
     path('about_this_site/<str:language>/', about_this_site, name='about'),
-    path('<str:language>/', index),
+    path('<str:language>/', index, name='index_language'),
     path('', index, name='index'),
 ]
 
