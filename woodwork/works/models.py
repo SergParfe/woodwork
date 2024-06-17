@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from works.constants import EXCLUDE_ABOUT_PAGE
+
 User = get_user_model()
 
 
@@ -11,12 +13,7 @@ class ApprovedManager(models.Manager):
 
 class WorkList(models.Manager):
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .exclude(slug='about')
-            .exclude(slug='about_me')
-        )
+        return super().get_queryset().exclude(slug=EXCLUDE_ABOUT_PAGE)
 
 
 class Tag(models.Model):
@@ -91,8 +88,8 @@ class Image(models.Model):
 
     class Meta:
         ordering = (
-            '-order',
-            '-pub_date',
+            '-work',
+            'order',
         )
         verbose_name = 'Картинка'
         verbose_name_plural = 'Картинки'

@@ -2,7 +2,7 @@ from datetime import datetime
 from http import HTTPStatus
 
 from django.db.models import Prefetch
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from works.constants import LANGUAGE, MAIN_PAGE_WORKS_COUNT
@@ -33,7 +33,7 @@ def index(request, language='eng'):
             Prefetch(
                 'images',
                 queryset=Image.objects.filter(order=0),
-                to_attr='main_image',
+                to_attr='image_content',
             ),
         )
         .select_related('author')
@@ -93,7 +93,7 @@ def work_list(request, language='eng'):
             Prefetch(
                 'images',
                 queryset=Image.objects.all(),
-                to_attr='main_image',
+                to_attr='image_content',
             ),
         )
         .select_related('author')
@@ -106,12 +106,13 @@ def work_list(request, language='eng'):
 def work_detail(request, slug, language='eng'):
     context = language_tool(language, request)
     template = f'works/{language}/work_detail.html'
-    work = (
-        Work.worklist.filter(slug=slug)
-        .prefetch_related(
+    work = get_object_or_404(
+        Work.worklist.prefetch_related(
             Prefetch(
                 'content',
-                queryset=Content.objects.filter(language=language),
+                queryset=Content.objects.filter(
+                    language=language
+                ).prefetch_related('tags'),
                 to_attr='content_unit',
             ),
             Prefetch(
@@ -122,11 +123,11 @@ def work_detail(request, slug, language='eng'):
             Prefetch(
                 'images',
                 queryset=Image.objects.all(),
-                to_attr='main_image',
+                to_attr='image_content',
             ),
-        )
-        .select_related('author')
-    )[0]
+        ),
+        slug=slug,
+    )
     context |= {'work': work}
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -150,9 +151,10 @@ def work_detail(request, slug, language='eng'):
 
 def about_this_site(request, language='eng'):
     context = language_tool(language, request)
-    template = f'works/{language}/about.html'
+    template = 'works/about.html'
     work = (
-        Work.worklist.filter(slug='about_this_site').prefetch_related(
+        Work.objects.filter(slug='about_this_site')
+        .prefetch_related(
             Prefetch(
                 'content',
                 queryset=Content.objects.filter(language=language),
@@ -160,10 +162,11 @@ def about_this_site(request, language='eng'):
             ),
             Prefetch(
                 'images',
-                queryset=Image.objects.all(),
-                to_attr='main_image',
+                queryset=Image.objects.all().order_by('?'),
+                to_attr='image_content',
             ),
         )
-    )[0]
+        .first()
+    )
     context |= {'work': work}
     return render(request, template, context)

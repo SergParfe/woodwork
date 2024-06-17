@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-
-<h1>Привет!</h1>
-<p>
+<h1>Здравствуйте!</h1>
+<p class="lead text-muted text-justify">
     Меня зовут Сергей. Я увлечен столярным ремеслом более 10 лет.
-    Начинал как хобби, а потом имел опыт работы по этому ремеслу.
+    Начинал как хобби, а потом работал по этому ремеслу.
     На этом сайте я выложил некоторые проекты, к которым приложил свои руки.
 </p>
-<p>
+<p class="text-justify">
     В своей работе я использую ручной и электро- инструмент, промышленное оборудование, а также станок с ЧПУ.
     Проектирую изделия используя Autodesk Fusion.
 </p>
-<p>
+<p class="text-justify">
     Ниже некоторые мои работы. Смотрите и комментируйте.
 </p>
+{% endblock %}
+{% block works_list %}
+{% include 'includes/'|add:language|add:'/works.html' %}
+<div class="container col-md-6 py-5 text-center">
+  <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Смотреть весь каталог</a>
+</div>
 {% endblock %}

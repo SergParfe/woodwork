@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Каталог работ{% endblock %}
+{% block content %}
+<h1>Каталог работ</h1>
+<p class="text-justify">
+Ниже представлены работы, которые мне особенно запомнились и я смог их заснять.
+Вы можете зайти в каждую и посмотреть детали. Даже можно оставить комментарий.
+</p>
+{% endblock %}
+{% block works_list %}
+{% include 'includes/'|add:language|add:'/works.html' %}
+{% endblock %}

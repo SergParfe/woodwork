@@ -1,0 +1,11 @@
+<footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="#">Наверх</a>
+        <br>
+        <a href="{% url 'about' language %}">О сайте</a>
+        <br>
+        <a href="{{ switch_to_url }}">Переключиться на {{ switch_to_language|upper }}</a>
+      <p class="float-left">&copy; {{ year }}</p>
+    </div>
+  </footer>

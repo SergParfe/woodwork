@@ -12,18 +12,14 @@
 
 {% endblock %}
 {% block works_list %}
-<section class="jumbotron text-center">
-  <p class="text-center">You can back to the previous page,
+<div class="container col-md-6 py-5 text-center">
+  <p>You can back to the previous page,
     <br>Вы можете вернуться к прежней странице,
   </p>
-  <div class="container">
-    <a href="{% url 'works:work_detail' slug language %}" class="btn btn-secondary">Previous page</a>
-  </div>
-  <p class="text-center">or back to the catalog.
+  <p><a href="{% url 'works:work_detail' slug language %}" class="btn btn-secondary">Previous page</a></p>
+  <p>or back to the catalog.
     <br>или вернуться в каталог.
   </p>
-  <div class="container">
-    <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Catalog</a>
-  </div>
-</selection>
+  <p><a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Catalog</a></p>
+</div>
 {% endblock %}

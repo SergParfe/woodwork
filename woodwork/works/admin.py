@@ -38,26 +38,6 @@ class CommentInline(admin.TabularInline):
     min_number = 1
 
 
-'''
-    Выглядит красиво, но не функционально
-
-    fields = ('content_lang', 'content_title', 'content_text',)
-    readonly_fields = fields
-    def content_title(self, obj):
-        return Content.objects.get(pk=obj.content.pk).title
-
-    def content_text(self, obj):
-        return Content.objects.get(pk=obj.content.pk).text[:25]
-
-    def content_lang(self, obj):
-        return Content.objects.get(pk=obj.content.pk).lang
-
-    content_title.short_description = 'Заголовок'
-    content_text.short_description = 'Текст'
-    content_lang.short_description = 'Язык'
-'''
-
-
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = (
@@ -201,7 +181,7 @@ class ImageAdmin(admin.ModelAdmin):
     )
     list_editable = ('order',)
     ordering = (
-        'work',
+        '-work',
         'order',
     )
 

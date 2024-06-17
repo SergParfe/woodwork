@@ -18,14 +18,14 @@
   {% endwith %}
       <p class="card-text text-justify">{{ content.text }}</p>
         {% with tags=content.tags.all %}
-        <small class="text-muted">Tags:
+        <small class="text-muted">Теги:
           {% for item in tags %}
           #{{ item.name }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
       </small>
       {% endwith %}    
       <br>
-      <small class="text-muted">Made: {{ work.pub_date|date:"E Y" }}</small>
+      <small class="text-muted">Сделано: {{ work.pub_date|date:"E Y" }}</small>
  
   </div>
 </div>
@@ -44,7 +44,7 @@
 <div class="album py-5 bg-light">
   <div class="container col-md-6">
 
-        <h2>More pictures</h2>
+        <h2>Еще фото</h2>
           <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators" style="bottom: 2rem;">
 
@@ -85,7 +85,7 @@
 {% for comment in work.comment_unit %}
 {% if forloop.first%}
 <div class="container col-md-6 py-5">
-<h2>Early comments</h2>
+<h2>Комментарии</h2>
 {% endif %}
     <div class="card bg-light mb-3">
         <div class="card-body">
@@ -105,18 +105,18 @@
 
 {% comment %} Форма ввода комментария {% endcomment %}
 <div class="container col-md-6 py-5">
-  <h2>Your comment:</h2>
+  <h2>Написать комментарий:</h2>
 <form method="post" action="">
   {% csrf_token %}
   <div class="form-row">
     <div class="col">
-      <input type="text" class="form-control" placeholder="Your name" name="author" maxlength="128" required>
+      <input type="text" class="form-control" placeholder="Ваше имя" name="author" maxlength="128" required>
     </div>
     <div class="col-7">
-      <input type="text" class="form-control" placeholder="Your message"name="text" maxlength="512" required>
+      <input type="text" class="form-control" placeholder="Текст комментария"name="text" maxlength="512" required>
     </div>
     <div class="col-auto">
-      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      <button type="submit" class="btn btn-primary mb-2">Отправить</button>
     </div>
 
   </div>
@@ -125,6 +125,6 @@
 {% comment %} Конец формы {% endcomment %}
 
 <div class="container col-md-6 py-5 text-center">
-    <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Back to the catalog</a>
+    <a href="{% url 'works:works_list' language %}" class="btn btn-secondary">Обратно к каталогу</a>
 </div>
 {% endblock %}

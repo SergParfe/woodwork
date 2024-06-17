@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.urls import NoReverseMatch, reverse
 
-from works.constants import LANGUAGE
+from works.constants import EMAIL_TO_ME, LANGUAGE, SHORT_CARD_TEXT_LENGTH
 
 
 def language_tool(language, request):
@@ -29,5 +29,7 @@ def language_tool(language, request):
         'switch_to_language': switch_to_language,
         'switch_to_url': switch_to_url,
         'year': datetime.now().strftime('%Y'),
+        'SHORT_CARD_TEXT_LENGTH': SHORT_CARD_TEXT_LENGTH,
+        'EMAIL_TO_ME': EMAIL_TO_ME,
     }
     return context

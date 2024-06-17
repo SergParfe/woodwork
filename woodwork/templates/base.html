@@ -27,21 +27,15 @@
     </style>
     <link href="/static/bootstrap/css/album.css" rel="stylesheet">
   </head>
-  <body>       
-    
-    {% include 'includes/header.html' %}
-    
+  <body>
+    {% include 'includes/'|add:language|add:'/header.html' %}
     <main role="main">
-      <section class="jumbotron text-left">
-        <div class="container">
+      <div class="container col-md-6 py-5">
     {% block content %} Content havn't done yet :( {% endblock content %}
-        </div>
-      </section>
+      </div>
     {% block works_list %} Work content havn't done yet :( {% endblock works_list %}
-    
     </main>
-
-    {% include 'includes/footer.html' %}
+    {% include 'includes/'|add:language|add:'/footer.html' %}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
   </body>

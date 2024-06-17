@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% with content=work.content_unit|first %}
+    {{ content.title }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+  {% with content=work.content_unit|first %}
+    <h1>{{ content.title }}</h1>
+    <p class="text-justify">{{ content.text }}</p>
+  {% endwith %}
+
+  {% with tech_content_image=work.image_content %}
+    <div class="row row-cols-3 align-items-center py-5">
+  {% for item in tech_content_image %}
+      <div class="col">
+        <img src="{{ item }}" width="auto" class="rounded mx-auto d-block" alt="{{ item.description }}" style="max-height: 100px; max-width: 150px;">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ item.description }}</h5>
+        </div>
+      </div>
+  {% endfor %}
+    </div>
+
+  {% endwith %}
+
+{% endblock %}
+
+{% block works_list %}
+<div class="container col-md-6 py-5 text-center">
+  <a href="{% url 'index' %}{{ language}}/" class="btn btn-secondary">
+    {% if language == 'rus' %}
+    Вернуться на главную
+    {% else %}
+    To the Home page
+    {% endif%}
+  </a>
+</div>
+{% endblock %}
