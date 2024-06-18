@@ -13,7 +13,7 @@
   {% endwith %}
 
   {% with tech_content_image=work.image_content %}
-    <div class="row row-cols-3 align-items-center py-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-center py-5">
   {% for item in tech_content_image %}
       <div class="col">
         <img src="{{ item }}" width="auto" class="rounded mx-auto d-block" alt="{{ item.description }}" style="max-height: 100px; max-width: 150px;">

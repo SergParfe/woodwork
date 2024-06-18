@@ -44,6 +44,7 @@ class TagAdmin(admin.ModelAdmin):
         'name',
         'slug',
     )
+    search_fields = list_display
 
 
 @admin.register(Content)
@@ -56,10 +57,8 @@ class ContentAdmin(admin.ModelAdmin):
         'title',
         'text',
     )
-    list_filter = (
-        'title',
-        'text',
-    )
+    list_filter = ('title',)
+    autocomplete_fields = ('tags',)
 
 
 @admin.register(Comment)
@@ -101,10 +100,8 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Work)
 class WorkAdmin(admin.ModelAdmin):
     fields = (
-        'author',
-        'slug',
-        'made',
-        'pub_date',
+        ('slug', 'author'),
+        ('made', 'pub_date'),
     )
     readonly_fields = ('pub_date',)
     save_on_top = True
@@ -172,6 +169,7 @@ class ImageAdmin(admin.ModelAdmin):
     )
     list_display = (
         'photo',
+        'image',
         'work',
         'order',
         'description',

@@ -25,7 +25,7 @@
       </small>
       {% endwith %}    
       <br>
-      <small class="text-muted">Сделано: {{ work.pub_date|date:"E Y" }}</small>
+      <small class="text-muted">Сделано: {{ work.made|date:"E Y" }}</small>
  
   </div>
 </div>
@@ -109,10 +109,11 @@
 <form method="post" action="">
   {% csrf_token %}
   <div class="form-row">
-    <div class="col">
+    <div class="col-12 col-sm-3">
       <input type="text" class="form-control" placeholder="Ваше имя" name="author" maxlength="128" required>
     </div>
-    <div class="col-7">
+    <div class="w-100 d-block d-sm-none"></div>
+    <div class="col">
       <input type="text" class="form-control" placeholder="Текст комментария"name="text" maxlength="512" required>
     </div>
     <div class="col-auto">

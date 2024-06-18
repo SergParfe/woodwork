@@ -14,7 +14,7 @@ services:
 
   woodwork: 
     build:
-      context: ../woodwork
+      context: .
       dockerfile: Dockerfile
     restart: always 
     env_file: .env 
