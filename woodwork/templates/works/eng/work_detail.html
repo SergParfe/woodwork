@@ -25,7 +25,7 @@
       </small>
       {% endwith %}    
       <br>
-      <small class="text-muted">Made: {{ work.pub_date|date:"E Y" }}</small>
+      <small class="text-muted">Made: {{ work.made|date:"E Y" }}</small>
  
   </div>
 </div>
@@ -93,7 +93,7 @@
             <p class="card-text text-justify">
             {{ comment.text }}
             </p>
-            <p class="text-muted text-right"><small>@ {{ work.made|date:"d E Y" }}</small></p>
+            <p class="text-muted text-right"><small>@ {{ work.pub_date|date:"d E Y" }}</small></p>
         </div>
     </div>
 {% if forloop.last%}
