@@ -27,6 +27,17 @@
     </style>
     <link href="/static/bootstrap/css/album.css" rel="stylesheet">
   </head>
+
+{% comment %} Google {% endcomment %}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GQMRWGSPF9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GQMRWGSPF9');
+</script>
+
   <body>
     {% include 'includes/'|add:language|add:'/header.html' %}
     <main role="main">
