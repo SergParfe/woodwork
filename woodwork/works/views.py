@@ -18,7 +18,7 @@ def index(request, language='eng'):
     template = f'works/{language}/index.html'
 
     works = (
-        Work.worklist.all()
+        Work.worklist.filter(is_on_main_page=True)
         .prefetch_related(
             Prefetch(
                 'comment',

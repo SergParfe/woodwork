@@ -102,6 +102,7 @@ class WorkAdmin(admin.ModelAdmin):
     fields = (
         ('slug', 'author'),
         ('made', 'pub_date'),
+        ('is_on_catalog', 'is_on_main_page'),
     )
     readonly_fields = ('pub_date',)
     save_on_top = True

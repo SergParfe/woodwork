@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from works.constants import EXCLUDE_WORKS_FROM_LIST
-
 User = get_user_model()
 
 
@@ -13,7 +11,7 @@ class ApprovedManager(models.Manager):
 
 class WorkList(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().exclude(slug__in=EXCLUDE_WORKS_FROM_LIST)
+        return super().get_queryset().filter(is_on_catalog=True)
 
 
 class Tag(models.Model):
@@ -153,6 +151,16 @@ class Work(models.Model):
         Comment,
         related_name='comment_to_work',
         verbose_name='Комментарии',
+    )
+    is_on_main_page = models.BooleanField(
+        null=False,
+        default=True,
+        verbose_name='На главной странице?',
+    )
+    is_on_catalog = models.BooleanField(
+        null=False,
+        default=True,
+        verbose_name='В каталоге?',
     )
 
     objects = models.Manager()
