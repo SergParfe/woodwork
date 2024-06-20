@@ -106,7 +106,7 @@ def work_detail(request, slug, language='eng'):
     context = language_tool(language, request)
     template = f'works/{language}/work_detail.html'
     work = get_object_or_404(
-        Work.worklist.prefetch_related(
+        Work.objects.prefetch_related(
             Prefetch(
                 'content',
                 queryset=Content.objects.filter(
