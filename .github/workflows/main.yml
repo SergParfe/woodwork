@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "woodwork/,docker-compose.yml,nginx.conf,Dockerfile,requirements.txt"
+          source: "woodwork/,docker-compose.yml,nginx.conf,Dockerfile,requirements.txt,server-startup.sh"
           target: /${{ secrets.SSH_USER }}/app
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -45,14 +45,7 @@ jobs:
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
 
-            sudo docker compose stop
-            sudo docker compose rm -f woodwork
-            docker image rm -f app-woodwork
-            sudo docker compose -f docker-compose.yml up --build -d
-
-            sudo docker compose exec -T woodwork python manage.py makemigrations works
-            sudo docker compose exec -T woodwork python manage.py migrate
-            sudo docker compose exec -T woodwork python manage.py collectstatic --noinput
+            sudo bash server-startup.sh
 
   # send_message:
   #     runs-on: ubuntu-latest

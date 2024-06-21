@@ -28,8 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'works.apps.WorksConfig',
+    'django_unused_media',
     'debug_toolbar',
+    'works.apps.WorksConfig',
 ]
 
 MIDDLEWARE = [
