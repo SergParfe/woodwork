@@ -8,7 +8,7 @@ from django.urls import reverse
 from works.constants import LANGUAGE, MAIN_PAGE_WORKS_COUNT
 from works.forms import CommentForm
 from works.models import Comment, Content, Image, Work
-from works.utils import language_tool
+from works.utils import language_tool, send_telegram_message
 
 
 def index(request, language='eng'):
@@ -138,7 +138,16 @@ def work_detail(request, slug, language='eng'):
                 'work': work,
                 'slug': work.slug,
             }
-            return render(request, 'thanks.html', context)
+            message_to_telegram = '\n'.join(
+                [
+                    'Новый коментарий на сайте\n',
+                    f'Работа: {work.slug}',
+                    f'Автор: {comment.author}',
+                    f'Пишет: {comment.text}',
+                ]
+            )
+            send_telegram_message(message_to_telegram)
+            return render(request, 'works/thanks.html', context)
         context |= {'comment_form': form}
         return render(request, template, context)
 

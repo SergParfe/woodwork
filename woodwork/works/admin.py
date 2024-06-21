@@ -70,9 +70,8 @@ class CommentAdmin(admin.ModelAdmin):
         'project',
     )
     fields = (
-        'author',
-        'text',
         'approved',
+        ('author', 'text'),
         'pub_date',
     )
     readonly_fields = ('pub_date',)

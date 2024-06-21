@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_unused_media',
     'debug_toolbar',
+    'logging',
     'works.apps.WorksConfig',
 ]
 
@@ -111,3 +112,34 @@ def show_toolbar_callback(*args, **kwargs):
 
 
 DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": show_toolbar_callback}
+
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+TELEGRAM_TO = os.getenv('TELEGRAM_TO')
+
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'send_to_gram': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(name)s %(message)s',
+        },
+    },
+}
