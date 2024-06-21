@@ -47,6 +47,7 @@ jobs:
 
             echo TELEGRAM_TO=${{ secrets.TELEGRAM_TO }} >> .env
             echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
+            echo ADMIN_PANEL_PREFIX=${{ secrets.ADMIN_PANEL_PREFIX }} >> .env
 
             sudo bash server-startup.sh
 

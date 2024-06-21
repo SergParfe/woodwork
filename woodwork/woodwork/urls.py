@@ -5,7 +5,7 @@ from django.urls import include, path
 from works.views import about_this_site, index
 
 urlpatterns = [
-    path('serp-admin-panel/', admin.site.urls),
+    path(f'{settings.ADMIN_PANEL_PREFIX}/', admin.site.urls),
     path('works/', include('works.urls', namespace='works')),
     path('about_this_site/<str:language>/', about_this_site, name='about'),
     path('<str:language>/', index, name='index_language'),

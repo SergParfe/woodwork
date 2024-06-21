@@ -116,6 +116,8 @@ DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": show_toolbar_callback}
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_TO = os.getenv('TELEGRAM_TO')
 
+ADMIN_PANEL_PREFIX = os.getenv('ADMIN_PANEL_PREFIX')
+
 
 LOGGING = {
     'version': 1,
