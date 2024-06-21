@@ -11,9 +11,9 @@ server {
     root /var/html/;
   }
 
-  location /serp-admin-panel/ {
+  location /${ADMIN_PANEL_PREFIX}/ {
     proxy_set_header        Host $host;
-    proxy_pass http://woodwork:8000/serp-admin-panel/;
+    proxy_pass http://woodwork:8000/${ADMIN_PANEL_PREFIX}/;
   }
 
   location / {
