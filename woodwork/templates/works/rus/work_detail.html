@@ -14,7 +14,7 @@
   {% with item=work.image_content|first %}
     <img src="{{ item }}" class="card-img-top" alt="...">
     <div class="card-body">
-      <p class="card-text text-center">{{ item.description }}</p>
+      <p class="card-text text-center">{{ item.description|linebreaksbr }}</p>
   {% endwith %}
       <p class="card-text text-justify">{{ content.text }}</p>
         {% with tags=content.tags.all %}
@@ -61,7 +61,7 @@
                 <div class="carousel-caption d-none d-md-block">
                   <p></p>
                 </div>
-                <p class="text-center">{{ item.description }}</p>
+                <p class="text-center">{{ item.description|linebreaksbr }}</p>
               </div>
             {% endfor %}
             </div>
