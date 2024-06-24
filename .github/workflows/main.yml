@@ -44,6 +44,7 @@ jobs:
 
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+            echo EMAIL_TO_ME=${{ secrets.EMAIL_TO_ME }} >> .env
 
             echo TELEGRAM_TO=${{ secrets.TELEGRAM_TO }} >> .env
             echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
