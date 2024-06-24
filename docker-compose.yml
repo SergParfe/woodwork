@@ -3,6 +3,7 @@ volumes:
   static_value: 
   media_value:
   migrations_works:
+  certs:
 
 services:
 
@@ -34,5 +35,11 @@ services:
       - woodwork
     volumes:
       - ./nginx_templates:/etc/nginx/templates
-      - static_value:/var/html/static/ 
-      - media_value:/var/html/media/
+      - static_value:/var/html/static
+      - media_value:/var/html/media
+      - certs:/etc/nginx/certs
+      - /var/log/letsencrypt/:/var/log/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - /tmp/letsencrypt/www:/tmp/letsencrypt/www
