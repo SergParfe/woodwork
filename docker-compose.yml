@@ -38,7 +38,7 @@ services:
       - ./nginx_templates:/etc/nginx/templates
       - static_value:/var/html/static/ 
       - media_value:/var/html/media/
-      - certs:/etc/nginx/certs
+      - certs:/etc/letsencrypt/live
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
 
 
@@ -55,12 +55,11 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
-      - certs:/etc/nginx/certs
+      - certs:/etc/letsencrypt/live
     environment:
       - EMAIL=$EMAIL_TO_ME
-      - SERVER_CONTAINER=nginx
+      - SERVER_CONTAINER=app-nginx-1
       - WEBROOT_PATH=/tmp/letsencrypt/www
-      - CERTS_PATH=/etc/nginx/certs
+      - CERTS_PATH=/etc/letsencrypt/live
       - DOMAINS=$ALLOWED_HOSTS
-      # - CHECK_FREQ=7
     restart: unless-stopped
