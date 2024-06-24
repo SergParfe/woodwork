@@ -1,8 +1,13 @@
 server {
+  server_name ${ALLOWED_HOSTS};
   listen 80;
-    server_tokens off;
-    client_max_body_size 20M;
-    server_name ${ALLOWED_HOSTS};
+  listen  443 ssl;
+  ssl_certificate     /etc/nginx/certs/server.crt;
+  ssl_certificate_key /etc/nginx/certs/server.key;
+  ssl_verify_client off;
+
+  server_tokens off;
+  client_max_body_size 20M;
 
   location /static/ {
     root /var/html/;

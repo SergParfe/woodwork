@@ -30,16 +30,37 @@ services:
     image: nginx:1.23.3-alpine-slim
     ports:
       - "80:80"
+      - "443:443"
     env_file: .env
     depends_on: 
       - woodwork
     volumes:
       - ./nginx_templates:/etc/nginx/templates
-      - static_value:/var/html/static
-      - media_value:/var/html/media
+      - static_value:/var/html/static/ 
+      - media_value:/var/html/media/
       - certs:/etc/nginx/certs
+      - /tmp/letsencrypt/www:/tmp/letsencrypt/www
+
+
+letsencrypt:
+    image: gordonchan/auto-letsencrypt
+    env_file: .env
+    depends_on:
+      - nginx
+    links:
+      - nginx
+    volumes:
       - /var/log/letsencrypt/:/var/log/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
+      - certs:/etc/nginx/certs
+    environment:
+      - EMAIL=$EMAIL_TO_ME
+      - SERVER_CONTAINER=nginx
+      - WEBROOT_PATH=/tmp/letsencrypt/www
+      - CERTS_PATH=/etc/nginx/certs
+      - DOMAINS=$ALLOWED_HOSTS
+      # - CHECK_FREQ=7
+    restart: unless-stopped

@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv(
 
 DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
