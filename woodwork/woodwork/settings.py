@@ -18,7 +18,7 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
-CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+CSRF_TRUSTED_ORIGINS = [f'https://{item}' for item in ALLOWED_HOSTS]
 ADMIN_PANEL_PREFIX = os.getenv('ADMIN_PANEL_PREFIX')
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
