@@ -42,7 +42,7 @@ services:
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
 
 
-letsencrypt:
+  letsencrypt:
     image: gordonchan/auto-letsencrypt
     env_file: .env
     depends_on:
