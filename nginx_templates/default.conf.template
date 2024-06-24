@@ -1,8 +1,8 @@
 server {
   server_name ${ALLOWED_HOSTS};
   listen  443 ssl;
-    ssl_certificate /etc/letsencrypt/live/sergparfe.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/sergparfe.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/privkey.pem;
 
   server_tokens off;
   client_max_body_size 20M;
