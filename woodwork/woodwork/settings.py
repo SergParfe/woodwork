@@ -18,6 +18,8 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
+CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+ADMIN_PANEL_PREFIX = os.getenv('ADMIN_PANEL_PREFIX')
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
@@ -117,9 +119,6 @@ DEBUG_TOOLBAR_CONFIG = {'SHOW_TOOLBAR_CALLBACK': show_toolbar_callback}
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_TO = os.getenv('TELEGRAM_TO')
-
-ADMIN_PANEL_PREFIX = os.getenv('ADMIN_PANEL_PREFIX')
-
 
 LOGGING = {
     'version': 1,
