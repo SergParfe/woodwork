@@ -21,6 +21,9 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -111,7 +114,7 @@ def show_toolbar_callback(*args, **kwargs):
     return True if DEBUG else False
 
 
-DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": show_toolbar_callback}
+DEBUG_TOOLBAR_CONFIG = {'SHOW_TOOLBAR_CALLBACK': show_toolbar_callback}
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_TO = os.getenv('TELEGRAM_TO')
