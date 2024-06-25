@@ -6,7 +6,12 @@ from datetime import datetime
 from django.conf import settings
 from django.urls import resolve, reverse
 
-from works.constants import EMAIL_TO_ME, LANGUAGE, SHORT_CARD_TEXT_LENGTH
+from works.constants import (
+    EMAIL_TO_ME,
+    LANGUAGE,
+    SHORT_CARD_TEXT_LENGTH,
+    SWITCH_TO_LABELS,
+)
 
 
 def language_tool(language, request):
@@ -29,8 +34,8 @@ def language_tool(language, request):
 
     context = {
         'language': language,
-        'switch_to_language': switch_to_language,
         'switch_to_url': switch_to_url,
+        'switch_to_label': SWITCH_TO_LABELS[switch_to_language],
         'year': datetime.now().strftime('%Y'),
         'SHORT_CARD_TEXT_LENGTH': SHORT_CARD_TEXT_LENGTH,
         'EMAIL_TO_ME': EMAIL_TO_ME,

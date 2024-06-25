@@ -15,7 +15,7 @@
               <li><a href="/{{ language }}/" class="text-white">Home</a></li>
               <li><a href="{% url 'works:works_list' language %}" class="text-white">Catalog</a></li>
               <li><a href="mailto:{{ EMAIL_TO_ME }}" class="text-white">Email me</a></li>
-              <li><a href="{{ switch_to_url }}" class="text-white">Switch to {{ switch_to_language|upper }}</a></li>
+              <li><a href="{{ switch_to_url }}" class="text-white">{{ switch_to_label }}</a></li>
             </ul>
           </div>
         </div>

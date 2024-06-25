@@ -5,7 +5,7 @@ from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from works.constants import LANGUAGE, MAIN_PAGE_WORKS_COUNT
+from works.constants import LANGUAGE, MAIN_PAGE_WORKS_COUNT, SWITCH_TO_LABELS
 from works.forms import CommentForm
 from works.models import Comment, Content, Image, Work
 from works.utils import language_tool, send_telegram_message
@@ -45,7 +45,7 @@ def index(request, language='eng'):
 def page_not_found(request, exception):
     context = {
         'language': LANGUAGE[0],
-        'switch_to_language': LANGUAGE[1],
+        'switch_to_label': SWITCH_TO_LABELS[LANGUAGE[1]],
         'switch_to_url': f'/{LANGUAGE[1]}/',
         'year': datetime.now().strftime('%Y'),
         'path': request.path,
@@ -61,7 +61,7 @@ def page_not_found(request, exception):
 def server_error_page(request):
     context = {
         'language': LANGUAGE[0],
-        'switch_to_language': LANGUAGE[1],
+        'switch_to_label': SWITCH_TO_LABELS[LANGUAGE[1]],
         'switch_to_url': f'/{LANGUAGE[1]}/',
         'year': datetime.now().strftime('%Y'),
         'path': request.path,
