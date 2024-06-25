@@ -12,12 +12,12 @@ services:
     env_file: .env 
     volumes: 
       - pg_data:/var/lib/postgresql/data
+    restart: always 
 
   woodwork: 
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always 
     env_file: .env 
     depends_on: 
       - db 
@@ -25,6 +25,7 @@ services:
       - static_value:/app/static/
       - media_value:/app/media/
       - migrations_works:/app/works/migrations
+    restart: always 
 
   nginx:
     image: nginx:1.23.3-alpine-slim
@@ -40,7 +41,7 @@ services:
       - media_value:/var/html/media/
       - certs:/etc/letsencrypt/live
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
-
+    restart: always 
 
   letsencrypt:
     image: gordonchan/auto-letsencrypt
