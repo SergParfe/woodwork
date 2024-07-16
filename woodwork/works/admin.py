@@ -169,8 +169,8 @@ class ImageAdmin(admin.ModelAdmin):
     )
     list_display = (
         'photo',
-        'image',
         'work',
+        'image',
         'order',
         'description',
     )
