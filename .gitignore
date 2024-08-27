@@ -132,5 +132,5 @@ dmypy.json
 .idea
 
 migrations/
-start-docker.sh
+start-local-docker.sh
 woodwork_backup.sql

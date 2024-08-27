@@ -1,19 +1,19 @@
 volumes:
   pg_data: 
-  static_value: 
+  static_value:
   media_value:
   migrations_works:
 
 services:
 
-  db: 
-    image: postgres:13.0-alpine 
-    env_file: .env 
-    volumes: 
+  db:
+    image: postgres:13-alpine
+    env_file: .env
+    volumes:
       - pg_data:/var/lib/postgresql/data
-    restart: always 
+    restart: always
 
-  woodwork: 
+  woodwork:
     build:
       context: .
       dockerfile: Dockerfile
@@ -27,7 +27,7 @@ services:
     restart: always 
 
   nginx:
-    image: nginx:1.23.3-alpine-slim
+    image: nginx:alpine-slim
     ports:
       - "80:80"
     env_file: .env
