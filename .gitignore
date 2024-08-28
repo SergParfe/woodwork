@@ -134,3 +134,4 @@ dmypy.json
 migrations/
 start-local-docker.sh
 woodwork_backup.sql
+works_dump.json
