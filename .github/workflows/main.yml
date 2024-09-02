@@ -61,4 +61,4 @@ jobs:
           with:
             to: ${{ secrets.TELEGRAM_TO }}
             token: ${{ secrets.TELEGRAM_TOKEN }}
-            message: Деплой ${{ github.workflow }} успешно выполнен!
+            message: Деплой ${{ github.workflow }} успешно выполнен! Коммит https://github.com/${{ github.repository }}/commit/${{ github.sha }} от ${{github.actor}}. ${{github.event.commits[0].message}}
