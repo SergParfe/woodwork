@@ -29,7 +29,7 @@ server {
   }
   
   location '/.well-known/acme-challenge' {
-    root /var/html/;
+    root /usr/share/nginx/html/;
 }
 
 }
