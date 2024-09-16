@@ -60,7 +60,7 @@ services:
     environment:
       - EMAIL=$EMAIL_TO_ME
       - SERVER_CONTAINER=app-nginx-1
-      - WEBROOT_PATH=/tmp/letsencrypt
+      - WEBROOT_PATH=/tmp/letsencrypt/www
       - CERTS_PATH=/etc/letsencrypt/live
       - DOMAINS=$ALLOWED_HOSTS
       - CHECK_FREQ=10
