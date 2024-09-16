@@ -1,6 +1,8 @@
 server {
   server_name ${ALLOWED_HOSTS};
-  listen 80;
+  listen  443 ssl;
+    ssl_certificate /etc/letsencrypt/live/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/privkey.pem;
 
   server_tokens off;
   client_max_body_size 20M;
@@ -15,18 +17,51 @@ server {
 
   location /${ADMIN_PANEL_PREFIX}/ {
     proxy_set_header        Host $host;
-    proxy_pass http://woodwork:8000/${ADMIN_PANEL_PREFIX}/;
+    proxy_pass              http://woodwork:8000/${ADMIN_PANEL_PREFIX}/;
   }
 
   location / {
-    proxy_pass http://woodwork:8000/;
+    proxy_pass              http://woodwork:8000/;
     proxy_set_header        Host $host;
     proxy_set_header        X-Real-IP $remote_addr;
     proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header        X-Forwarded-Proto $scheme;
   }
+  
+  location '/.well-known/acme-challenge' {
+    default_type "text/plain";
+    root /tmp/letsencrypt;
+}
+
+}
+
+server {
+  server_name ${ALLOWED_HOSTS};
+  listen 80;
+  server_tokens off;
 
   location '/.well-known/acme-challenge' {
     root /tmp/letsencrypt/www;
   }
 }
+
+server {
+  if ($host = www.sergparfe.com) {
+    return 301 https://$host$request_uri;
+  }
+
+  if ($host = sergparfe.com) {
+    return 301 https://$host$request_uri;
+  }
+
+  server_name ${ALLOWED_HOSTS};
+  listen 80;
+  server_tokens off;
+  return 404;
+}
+
+
+
+
+
+
