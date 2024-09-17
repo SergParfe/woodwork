@@ -9,6 +9,7 @@ archive_name="/root/app/works_backup_$date.zip"
 
 source <(cat /root/app/.env)
 
+docker exec -it $container_name python manage.py cleanup_unused_media
 docker exec -it $container_name python manage.py dumpdata works > $backup_dir"works_dump.json"
 docker cp $container_name:/app/media/ $backup_dir
 # docker cp $container_name:/app/static/ $backup_dir
