@@ -28,9 +28,8 @@ server {
     proxy_set_header        X-Forwarded-Proto $scheme;
   }
   
-  location '/.well-known/acme-challenge' {
-    default_type "text/plain";
-    root /tmp/letsencrypt;
+  location "/.well-known/acme-challenge" {
+    root /tmp/letsencrypt/www;
 }
 
 }
@@ -40,28 +39,11 @@ server {
   listen 80;
   server_tokens off;
 
-  location '/.well-known/acme-challenge' {
+  location "/.well-known/acme-challenge" {
     root /tmp/letsencrypt/www;
   }
-}
 
-server {
-  if ($host = www.sergparfe.com) {
+  location / {
     return 301 https://$host$request_uri;
   }
-
-  if ($host = sergparfe.com) {
-    return 301 https://$host$request_uri;
-  }
-
-  server_name ${ALLOWED_HOSTS};
-  listen 80;
-  server_tokens off;
-  return 404;
 }
-
-
-
-
-
-
