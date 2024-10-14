@@ -143,16 +143,6 @@ class WorkAdmin(admin.ModelAdmin):
         return form
 
 
-@admin.register(Work.content.through)
-class ContentsOfWorkAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Work.comment.through)
-class CommentsOfWorkAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     fields = (
@@ -187,3 +177,17 @@ class ImageAdmin(admin.ModelAdmin):
     @admin.display(description='Изображение')
     def photo(self, obj):
         return mark_safe(f'<img src="{obj.image.url}" width=100>')
+
+
+@admin.register(Work.content.through)
+class ContentsOfWorkAdmin(admin.ModelAdmin):
+    model = Work.content.through
+    model._meta.verbose_name = 'Связь работ с контентом'
+    model._meta.verbose_name_plural = 'Связи работ с контентом'
+
+
+@admin.register(Work.comment.through)
+class CommentsOfWorkAdmin(admin.ModelAdmin):
+    model = Work.comment.through
+    model._meta.verbose_name = 'Связь работ с комментариями'
+    model._meta.verbose_name_plural = 'Связи работ с комментариями'
