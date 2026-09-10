@@ -54,6 +54,7 @@ jobs:
             echo SSH_USER=${{ secrets.SSH_USER }} >> .env
             echo SSH_PASSPHRASE=${{ secrets.SSH_PASSPHRASE }} >> .env
             echo "SSH_KEY=\"$(echo "${{ secrets.SSH_KEY }}" | awk 'BEGIN{ORS="\\n"} 1')\"" >> .env
+            printf 'SSH_KEY="\n%s\n"\n' "${{ secrets.SSH_KEY }}" >> .env
 
 
             sudo bash server-startup.sh
