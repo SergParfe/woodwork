@@ -1,0 +1,82 @@
+name:
+  woodwork to Finland
+on:
+  push:
+    branches: [deploy2]
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Uploading project files to remote server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: "woodwork/,nginx_templates/,docker-compose.yml,nginx.conf,Dockerfile,requirements.txt,server-startup.sh,backup.sh"
+          target: /${{ secrets.SSH_USER }}/app
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Executing remote ssh commands to deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            cd /${{ secrets.SSH_USER }}/app
+
+            sudo rm -f .env
+            touch .env
+
+            echo DB_ENGINE=${{ secrets.DB_ENGINE }} > .env
+            echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+
+            echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+            echo EMAIL_TO_ME=${{ secrets.EMAIL_TO_ME }} >> .env
+
+            echo TELEGRAM_TO=${{ secrets.TELEGRAM_TO }} >> .env
+            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
+            echo ADMIN_PANEL_PREFIX=${{ secrets.ADMIN_PANEL_PREFIX }} >> .env
+
+            echo SSH_HOST_2=${{ secrets.SSH_HOST_2 }} >> .env
+            echo SSH_USER_2=${{ secrets.SSH_USER_2 }} >> .env
+            echo SSH_PASSPHRASE_2=${{ secrets.SSH_PASSPHRASE_2 }} >> .env
+            printf 'SSH_KEY_2="\n%s\n"\n' "${{ secrets.SSH_KEY_2 }}" >> .env
+
+            sudo bash server-startup.sh
+
+  send_message:
+      runs-on: ubuntu-latest
+      needs: deploy
+      if: success()
+      steps:
+        - name: Send success message
+          uses: appleboy/telegram-action@master
+          with:
+            to: ${{ secrets.TELEGRAM_TO }}
+            token: ${{ secrets.TELEGRAM_TOKEN }}
+            message: Деплой ${{ github.workflow }} успешно выполнен! Коммит https://github.com/${{ github.repository }}/commit/${{ github.sha }} от ${{github.actor}}. ${{github.event.commits[0].message}}
+
+  send_error_message:
+      runs-on: ubuntu-latest
+      needs: deploy
+      if: failure()
+      steps:
+        - name: Send error message
+          uses: appleboy/telegram-action@master
+          with:
+            to: ${{ secrets.TELEGRAM_TO }}
+            token: ${{ secrets.TELEGRAM_TOKEN }}
+            message: Деплой ${{ github.workflow }} выполнен с ОШИБКОЙ! Коммит https://github.com/${{ github.repository }}/commit/${{ github.sha }} от ${{github.actor}}. ${{github.event.commits[0].message}}
