@@ -14,7 +14,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST_2 }}
-          username: ${{ secrets.SSH_USER_2 }}
+          username: ${{ secrets.SSH_KEY_2 }}
           key: ${{ secrets.SSH_KEY_2 }}
           passphrase: ${{ secrets.SSH_PASSPHRASE_2 }}
           source: "woodwork/,nginx_templates/,docker-compose.yml,nginx.conf,Dockerfile,requirements.txt,server-startup.sh,backup.sh"
