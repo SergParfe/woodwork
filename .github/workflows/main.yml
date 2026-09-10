@@ -35,9 +35,8 @@ jobs:
             sudo rm -f .env
             touch .env
 
-            echo ADMIN_PANEL_PREFIX=${{ secrets.ADMIN_PANEL_PREFIX }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-
+            echo ADMIN_PANEL_PREFIX=${{ secrets.ADMIN_PANEL_PREFIX }} >> .env
 
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} > .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -53,8 +52,8 @@ jobs:
 
             echo SSH_USER=${{ secrets.SSH_USER }} >> .env
             echo SSH_PASSPHRASE=${{ secrets.SSH_PASSPHRASE }} >> .env
-            echo SSH_KEY=${{ secrets.SSH_KEY}} >> .env
-            echo SSH_HOST=${{ secrets.SSH_HOST}} >> .env
+            echo SSH_KEY=${{ secrets.SSH_KEY }} >> .env
+            echo SSH_HOST=${{ secrets.SSH_HOST }} >> .env
 
             echo TELEGRAM_TO=${{ secrets.TELEGRAM_TO }} >> .env
             echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
