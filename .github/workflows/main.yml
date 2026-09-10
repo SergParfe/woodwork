@@ -20,7 +20,7 @@ jobs:
           source: "woodwork/,nginx_templates/,docker-compose.yml,nginx.conf,Dockerfile,requirements.txt,server-startup.sh,backup.sh"
           target: /${{ secrets.SSH_USER }}/app
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
