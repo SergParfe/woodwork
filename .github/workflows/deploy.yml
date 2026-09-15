@@ -1,5 +1,5 @@
 name:
-  woodwork to US
+  woodwork to Finland
 on:
   push:
     branches: [deploy]
@@ -13,24 +13,24 @@ jobs:
       - name: Uploading project files to remote server
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          host: ${{ secrets.SSH_HOST_2 }}
+          username: ${{ secrets.SSH_USER_2 }}
+          key: ${{ secrets.SSH_KEY_2 }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE_2 }}
           source: "woodwork/,nginx_templates/,docker-compose.yml,nginx.conf,Dockerfile,requirements.txt,server-startup.sh,backup.sh"
-          target: /${{ secrets.SSH_USER }}/app
+          target: /${{ secrets.SSH_USER_2 }}/app
       - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          host: ${{ secrets.SSH_HOST_2 }}
+          username: ${{ secrets.SSH_USER_2 }}
+          key: ${{ secrets.SSH_KEY_2 }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE_2 }}
           script: |
-            cd /${{ secrets.SSH_USER }}/app
+            cd /${{ secrets.SSH_USER_2 }}/app
 
             sudo rm -f .env
             touch .env
@@ -50,10 +50,10 @@ jobs:
             echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
             echo ADMIN_PANEL_PREFIX=${{ secrets.ADMIN_PANEL_PREFIX }} >> .env
 
-            echo SSH_HOST=${{ secrets.SSH_HOST }} >> .env
-            echo SSH_USER=${{ secrets.SSH_USER }} >> .env
-            echo SSH_PASSPHRASE=${{ secrets.SSH_PASSPHRASE }} >> .env
-            printf 'SSH_KEY="\n%s\n"\n' "${{ secrets.SSH_KEY }}" >> .env
+            echo SSH_HOST_2=${{ secrets.SSH_HOST_2 }} >> .env
+            echo SSH_USER_2=${{ secrets.SSH_USER_2 }} >> .env
+            echo SSH_PASSPHRASE_2=${{ secrets.SSH_PASSPHRASE_2 }} >> .env
+            printf 'SSH_KEY_2="\n%s\n"\n' "${{ secrets.SSH_KEY_2 }}" >> .env
 
             sudo bash server-startup.sh
 
