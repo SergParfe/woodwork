@@ -1,5 +1,5 @@
 name:
-  woodwork to Finland
+  Deploy woodwork
 on:
   push:
     branches: [deploy]
