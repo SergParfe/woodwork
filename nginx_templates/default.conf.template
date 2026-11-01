@@ -1,9 +1,8 @@
 server {
   server_name www.${ALLOWED_HOSTS};
-  listen  80;
-  # listen  443 ssl;
-  # ssl_certificate       /etc/letsencrypt/live/${ALLOWED_HOSTS}/fullchain.pem;
-  # ssl_certificate_key   /etc/letsencrypt/live/${ALLOWED_HOSTS}/privkey.pem;
+  listen  443 ssl;
+  ssl_certificate       /etc/letsencrypt/live/${ALLOWED_HOSTS}/fullchain.pem;
+  ssl_certificate_key   /etc/letsencrypt/live/${ALLOWED_HOSTS}/privkey.pem;
 
   server_tokens off;
   client_max_body_size 20M;
@@ -34,23 +33,23 @@ server {
   }
 }
 
-# server {
-#   server_name ${ALLOWED_HOSTS};
-#   listen  443 ssl;
+server {
+  server_name ${ALLOWED_HOSTS};
+  listen  443 ssl;
 
-#   return 301 $scheme://www.${ALLOWED_HOSTS}$request_uri;
-# }
+  return 301 $scheme://www.${ALLOWED_HOSTS}$request_uri;
+}
 
-# # server {
-# #   server_name ${ALLOWED_HOSTS};
-# #   listen 80;
-# #   server_tokens off;
+server {
+  server_name ${ALLOWED_HOSTS};
+  listen 80;
+  server_tokens off;
 
-# #   location "/.well-known/acme-challenge" {
-# #     root /tmp/letsencrypt/www;
-# #   }
+  location "/.well-known/acme-challenge" {
+    root /tmp/letsencrypt/www;
+  }
 
-# #   location / {
-# #     return 301 https://$host$request_uri;
-# #   }
-# }
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
