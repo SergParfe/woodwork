@@ -3,7 +3,6 @@ volumes:
   static_value: 
   media_value:
   migrations_works:
-  certs:
 
 services:
 
@@ -29,6 +28,7 @@ services:
 
   nginx:
     image: nginx:alpine-slim
+    container_name: app-nginx-1
     ports:
       - "80:80"
       - "443:443"
@@ -39,7 +39,7 @@ services:
       - ./nginx_templates:/etc/nginx/templates
       - static_value:/var/html/static/ 
       - media_value:/var/html/media/
-      - certs:/etc/letsencrypt/live
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
     restart: always 
 
@@ -48,15 +48,12 @@ services:
     env_file: .env
     depends_on:
       - nginx
-    links:
-      - nginx
     volumes:
       - /var/log/letsencrypt/:/var/log/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
-      - certs:/etc/letsencrypt/live
     environment:
       - EMAIL=$EMAIL_TO_ME
       - SERVER_CONTAINER=app-nginx-1
@@ -64,6 +61,5 @@ services:
       - CERTS_PATH=/etc/letsencrypt/live
       - DOMAINS=$ALLOWED_HOSTS
       - CERT_NAME=$ALLOWED_HOSTS
-      - USE_SYMLINKS=false
       - CHECK_FREQ=10
     restart: unless-stopped
