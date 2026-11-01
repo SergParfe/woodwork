@@ -64,5 +64,6 @@ services:
       - CERTS_PATH=/etc/letsencrypt/live
       - DOMAINS=$ALLOWED_HOSTS
       - CERT_NAME=$ALLOWED_HOSTS
+      - USE_SYMLINKS=false
       - CHECK_FREQ=10
     restart: unless-stopped
