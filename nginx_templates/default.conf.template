@@ -34,23 +34,23 @@ server {
   }
 }
 
-server {
-  server_name ${ALLOWED_HOSTS};
-  listen  443 ssl;
-
-  return 301 $scheme://www.${ALLOWED_HOSTS}$request_uri;
-}
-
 # server {
 #   server_name ${ALLOWED_HOSTS};
-#   listen 80;
-#   server_tokens off;
+#   listen  443 ssl;
 
-#   location "/.well-known/acme-challenge" {
-#     root /tmp/letsencrypt/www;
-#   }
+#   return 301 $scheme://www.${ALLOWED_HOSTS}$request_uri;
+# }
 
-#   location / {
-#     return 301 https://$host$request_uri;
-#   }
-}
+# # server {
+# #   server_name ${ALLOWED_HOSTS};
+# #   listen 80;
+# #   server_tokens off;
+
+# #   location "/.well-known/acme-challenge" {
+# #     root /tmp/letsencrypt/www;
+# #   }
+
+# #   location / {
+# #     return 301 https://$host$request_uri;
+# #   }
+# }
